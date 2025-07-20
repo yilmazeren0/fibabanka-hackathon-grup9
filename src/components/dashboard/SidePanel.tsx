@@ -122,7 +122,7 @@ export function SidePanel({ transactions, user }: SidePanelProps) {
         {renderModule(
           <TrendingUp />, 'Harcama Tahmini',
           prediction ? (
-            <p>Gelecek ayki tahmini harcamanız <strong className="text-foreground">{prediction.amount.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}</strong>. {prediction.explanation}</p>
+            <p>Gelecek ayki tahmini harcamanız <strong className="text-foreground">{prediction.amount.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}</strong>. Bu tahmin, geçmişteki harcama alışkanlıklarınız analiz edilerek oluşturulmuştur.</p>
           ) : <p>Tahmin mevcut değil.</p>,
           loading.prediction
         )}

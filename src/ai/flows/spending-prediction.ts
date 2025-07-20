@@ -18,8 +18,8 @@ const PredictSpendingInputSchema = z.object({
 export type PredictSpendingInput = z.infer<typeof PredictSpendingInputSchema>;
 
 const PredictSpendingOutputSchema = z.object({
-  predictedSpending: z.number().describe('The predicted spending for the next month.'),
-  explanation: z.string().describe('An explanation of how the prediction was made.'),
+  predictedSpending: z.number().describe('Gelecek ay için tahmin edilen harcama.'),
+  explanation: z.string().describe('Tahminin nasıl yapıldığına dair bir açıklama.'),
 });
 export type PredictSpendingOutput = z.infer<typeof PredictSpendingOutputSchema>;
 
@@ -38,7 +38,7 @@ const prompt = ai.definePrompt({
   Transaction History:
   {{transactionHistory}}
 
-  Respond with a JSON object that contains the predicted spending amount and an explanation of how you arrived at that prediction.
+  Respond with a JSON object that contains the predicted spending amount and a clear, concise explanation in Turkish of how you arrived at that prediction. The explanation should not be more than one sentence long.
   `,
 });
 
