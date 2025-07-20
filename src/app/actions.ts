@@ -7,7 +7,7 @@ import { predictSpending } from '@/ai/flows/spending-prediction';
 import { getFinancialRecommendation } from '@/ai/flows/financial-recommendations';
 import { getOptimizedRecommendation } from '@/ai/flows/behavioral-optimization-agent';
 import { db } from '@/lib/db';
-import type { Transaction, User, Feedback, RecommendationFeedback } from '@/lib/types';
+import type { Transaction, User, RecommendationFeedback } from '@/lib/types';
 
 // Simple in-memory cache
 const cache = new Map<string, { data: any, timestamp: number }>();
@@ -87,6 +87,7 @@ export async function fetchFinancialRecommendation(transactions: Transaction[], 
 
   return useCache(cacheKey, async () => {
     if (feedbackHistory.length > 0) {
+      cache.delete(cacheKey);
       return await getOptimizedRecommendation({
         transactionHistory,
         userPreferences: user.preferences,
