@@ -132,10 +132,10 @@ export function SidePanel({
           <HeartHandshake />, 'Hayat Olayı Takibi',
           lifeEvent?.lifeEvent ? (
             <div className="space-y-2">
-              <p className="flex items-center gap-2 text-sm"><AlertCircle className="h-4 w-4 text-accent" />Şunu yaşıyor olabileceğinizi tespit ettik: <strong className="text-foreground">{lifeEvent.lifeEvent}</strong></p>
+              <p className="flex items-center gap-2 text-sm"><AlertCircle className="h-4 w-4 text-accent" />Bir <strong className="text-foreground">{lifeEvent.lifeEvent}</strong> içinde olabileceğinizi tespit ettik.</p>
               {lifeEvent.loanOffers.length > 0 && (
                  <div className="space-y-2 pt-2">
-                  <p className="font-medium text-xs">İşinize yarayabilecek bazı kredi teklifleri:</p>
+                  <p className="font-medium text-xs">İşte işinize yarayabilecek bazı kredi teklifleri:</p>
                   {lifeEvent.loanOffers.map((loan, i) => (
                     <div key={i} className="flex items-start gap-2 text-xs p-2 rounded-md bg-background">
                        {loan.isRecommended && <Star className="h-4 w-4 text-yellow-500 fill-yellow-400 flex-shrink-0 mt-0.5" />}

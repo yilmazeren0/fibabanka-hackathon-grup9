@@ -19,18 +19,18 @@ const LifeEventDetectionInputSchema = z.object({
 export type LifeEventDetectionInput = z.infer<typeof LifeEventDetectionInputSchema>;
 
 const LoanOfferSchema = z.object({
-  bank: z.string().describe('The name of the bank offering the loan.'),
-  eventType: z.string().describe('The type of life event the loan is tailored for.'),
-  offerDetails: z.string().describe('Details of the loan offer, including interest rates and terms.'),
-  isRecommended: z.boolean().describe('Whether this offer is the recommended one among the options.'),
+  bank: z.string().describe('Kredi teklifini sunan bankanın adı.'),
+  eventType: z.string().describe('Kredinin uygun olduğu hayat olayının türü.'),
+  offerDetails: z.string().describe('Faiz oranları ve vade gibi kredi teklifi detayları.'),
+  isRecommended: z.boolean().describe('Bu teklifin, seçenekler arasında önerilen olup olmadığı.'),
 });
 
 const LifeEventDetectionOutputSchema = z.object({
   lifeEvent: z
     .string()
     .nullable()
-    .describe('The detected life event, if any (e.g., Moving, New Car, Wedding). If no event is detected, return null.'),
-  loanOffers: z.array(LoanOfferSchema).describe('Tailored loan offers based on the detected life event. The most advantageous offer should have isRecommended set to true.'),
+    .describe('Tespit edilen hayat olayı (örn: Evlilik, Yeni Araba, Taşınma). Olay tespit edilmezse null döner.'),
+  loanOffers: z.array(LoanOfferSchema).describe('Tespit edilen hayat olayına göre hazırlanmış kredi teklifleri. En avantajlı teklif için isRecommended true olmalıdır.'),
 });
 export type LifeEventDetectionOutput = z.infer<typeof LifeEventDetectionOutputSchema>;
 
@@ -42,26 +42,28 @@ const detectLifeEventPrompt = ai.definePrompt({
   name: 'detectLifeEventPrompt',
   input: {schema: LifeEventDetectionInputSchema},
   output: {schema: LifeEventDetectionOutputSchema},
-  prompt: `You are an AI agent that analyzes a user's transaction history to detect potential life events and suggest relevant loan offers.
+  prompt: `Sen, bir kullanıcının işlem geçmişini analiz ederek potansiyel hayat olaylarını tespit eden ve ilgili kredi teklifleri sunan bir yapay zeka ajanısın.
 
-  Analyze the following transaction history for user ID {{{userId}}} and detect any significant life events.
+  Kullanıcı ID'si {{{userId}}} olan kullanıcının aşağıdaki işlem geçmişini analiz et ve önemli hayat olaylarını tespit et.
 
-  Transaction History:
+  İşlem Geçmişi:
   {{{transactionHistory}}}
 
-  Possible life events to detect include, but are not limited to:
-  - Moving to a new location (e.g., rental deposits, moving company charges, new furniture)
-  - Purchasing a new car (e.g., down payments, car-related services)
-  - Planning a wedding (e.g., payments to venues, photographers, caterers)
-  - Having a baby (e.g., purchases from baby stores, hospital bills)
-  - Starting a new job (e.g., changes in salary deposit patterns)
+  Tespit edilebilecek olası hayat olayları şunları içerir, ancak bunlarla sınırlı değildir:
+  - Yeni bir yere taşınma (örn: kira depozitoları, nakliye şirketi ücretleri, yeni mobilya)
+  - Yeni bir araba satın alma (örn: peşinatlar, araba ile ilgili hizmetler)
+  - Düğün planlama (örn: mekanlara, fotoğrafçılara, catering firmalarına yapılan ödemeler)
+  - Bebek sahibi olma (örn: bebek mağazalarından yapılan alışverişler, hastane faturaları)
+  - Yeni bir işe başlama (örn: maaş yatırma düzenindeki değişiklikler)
 
-  If a life event is detected, generate relevant loan offers from the available banks: Fibabanka, Abank, and Bbank. Each bank should provide a competitive but slightly different offer (e.g., different interest rates, terms).
+  Bir hayat olayı tespit edilirse, mevcut bankalardan (Fibabanka, Abank, Bbank) ilgili kredi teklifleri oluştur. Her banka rekabetçi ancak biraz farklı bir teklif sunmalıdır (örn: farklı faiz oranları, vadeler).
   
-  Critically evaluate the offers you generate and mark the single best offer with 'isRecommended: true'. The "best" offer should be the most financially advantageous for the user (e.g., lowest interest rate, best terms). All other offers must have 'isRecommended: false'.
+  Oluşturduğun teklifleri eleştirel bir şekilde değerlendir ve kullanıcı için finansal olarak en avantajlı (örn: en düşük faiz oranı, en iyi koşullar) olan tek bir teklifi 'isRecommended: true' olarak işaretle. Diğer tüm teklifler 'isRecommended: false' olmalıdır.
 
-  Return a JSON object with the detected life event (or null if none is detected) and an array of tailored loan offers.
-  Ensure the JSON is parsable.
+  Tüm açıklamalar ve teklif detayları Türkçe olmalıdır.
+
+  Tespit edilen hayat olayını (veya hiçbiri tespit edilmediyse null) ve özel olarak hazırlanmış kredi teklifleri dizisini içeren bir JSON nesnesi döndür.
+  JSON'un ayrıştırılabilir olduğundan emin ol.
   `,
 });
 

@@ -33,12 +33,14 @@ const prompt = ai.definePrompt({
   output: {schema: PredictSpendingOutputSchema},
   prompt: `You are a financial advisor who predicts future spending based on past transaction history.
 
-  Given the following transaction history for a user, predict their spending for the next month and explain your reasoning.
+  Analyze the user's transaction history. Identify regular spending patterns versus one-time, large expenditures (like wedding expenses, major electronics purchases, etc.).
+
+  Base your prediction for the next month primarily on the user's recurring, regular spending habits. Do not let large, likely non-recurring expenses from the past month disproportionately influence the prediction. For example, if there are many wedding-related expenses this month, assume they won't happen again next month and predict a return to a more normal spending level.
 
   Transaction History:
   {{transactionHistory}}
 
-  Respond with a JSON object that contains the predicted spending amount and a clear, concise explanation in Turkish of how you arrived at that prediction. The explanation should be not more than one sentence long, and should be phrased as a continuation of the sentence "Gelecek ayki tahmini harcamanız X TL." For example, "Bu tahmin, geçmişteki harcama alışkanlıklarınız analiz edilerek oluşturulmuştur."
+  Respond with a JSON object that contains the predicted spending amount and a clear, concise explanation in Turkish of how you arrived at that prediction. The explanation should be not more than one or two sentences long and should justify why the prediction might be lower or higher than the previous month's total. For example: "Bu tahmin, düğün gibi tek seferlik büyük harcamaların gelecek ay tekrarlanmayacağı varsayımına dayanarak, düzenli harcama alışkanlıklarınız analiz edilerek oluşturulmuştur."
   `,
 });
 
