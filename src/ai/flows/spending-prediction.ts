@@ -38,7 +38,7 @@ const prompt = ai.definePrompt({
   Transaction History:
   {{transactionHistory}}
 
-  Respond with a JSON object that contains the predicted spending amount and a clear, concise explanation in Turkish of how you arrived at that prediction. The explanation should not be more than one sentence long.
+  Respond with a JSON object that contains the predicted spending amount and a clear, concise explanation in Turkish of how you arrived at that prediction. The explanation should be not more than one sentence long, and should be phrased as a continuation of the sentence "Gelecek ayki tahmini harcamanız X TL." For example, "Bu tahmin, geçmişteki harcama alışkanlıklarınız analiz edilerek oluşturulmuştur."
   `,
 });
 
@@ -49,7 +49,12 @@ const predictSpendingFlow = ai.defineFlow(
     outputSchema: PredictSpendingOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+      const {output} = await prompt(input);
+      return output!;
+    } catch (e) {
+        console.error("Error in spending prediction flow", e);
+        return { predictedSpending: 0, explanation: "Harcama tahmini yapılırken bir hata oluştu." };
+    }
   }
 );

@@ -3,11 +3,23 @@ import { Header } from '@/components/dashboard/Header';
 import { SummaryCards } from '@/components/dashboard/SummaryCards';
 import { SpendingChart } from '@/components/dashboard/SpendingChart';
 import { SidePanel } from '@/components/dashboard/SidePanel';
+import { 
+  getSpendingPrediction,
+  fetchFinancialRecommendation,
+  fetchLocalOffers,
+  checkForLifeEvents 
+} from '@/app/actions';
 
 export default async function Home() {
   const user = await db.getUser();
   const transactions = await db.getTransactions();
   const balance = transactions.reduce((acc, t) => acc + t.amount, 0);
+
+  // Fetch all AI data in the parent component (Presenter)
+  const spendingPrediction = await getSpendingPrediction(transactions);
+  const financialRecommendation = await fetchFinancialRecommendation(transactions, user);
+  const localOffers = await fetchLocalOffers();
+  const lifeEvent = await checkForLifeEvents(transactions);
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -21,7 +33,14 @@ export default async function Home() {
             <SpendingChart transactions={transactions} />
           </div>
           <div className="lg:col-span-3">
-            <SidePanel transactions={transactions} user={user} />
+            <SidePanel 
+              transactions={transactions} 
+              user={user}
+              spendingPrediction={spendingPrediction}
+              financialRecommendation={financialRecommendation}
+              localOffers={localOffers}
+              lifeEvent={lifeEvent}
+            />
           </div>
         </div>
       </main>
