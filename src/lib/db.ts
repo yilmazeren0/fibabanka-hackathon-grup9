@@ -1,4 +1,4 @@
-import type { User, Transaction, RecommendationFeedback } from '@/lib/types';
+import type { User, Transaction, RecommendationFeedback, Credit, UserLocation } from '@/lib/types';
 
 // In-memory store to simulate a database
 let users: User[] = [
@@ -58,6 +58,17 @@ let transactions: Transaction[] = [
     { id: 't36', user_id: 'user_1', amount: -12.99, description: 'Netflix Abonelik', date: '2024-05-01', bank: 'Fibabanka' }
 ];
 
+let credits: Credit[] = [
+    { id: 'c1', user_id: 'user_1', type: 'Ev Kredisi', amount: 500000, remainingAmount: 450000, interestRate: 1.89, bank: 'Fibabanka' },
+    { id: 'c2', user_id: 'user_1', type: 'Taşıt Kredisi', amount: 150000, remainingAmount: 75000, interestRate: 2.15, bank: 'Abank' }
+];
+
+let locations: UserLocation[] = [
+    { id: 'l1', user_id: 'user_1', latitude: 41.0082, longitude: 28.9784, category: 'restoran', timestamp: '2024-07-21T19:30:00Z' },
+    { id: 'l2', user_id: 'user_1', latitude: 40.9855, longitude: 29.0253, category: 'market', timestamp: '2024-07-21T15:00:00Z' },
+    { id: 'l3', user_id: 'user_1', latitude: 41.0422, longitude: 28.9769, category: 'teknoloji', timestamp: '2024-07-20T14:00:00Z' }
+];
+
 let feedback: RecommendationFeedback[] = [];
 
 // Simulate async operations
@@ -73,6 +84,14 @@ export const db = {
   getTransactions: async (userId: string = 'user_1'): Promise<Transaction[]> => {
     await delay(50);
     return transactions.filter(t => t.user_id === userId);
+  },
+   getCredits: async (userId: string = 'user_1'): Promise<Credit[]> => {
+    await delay(50);
+    return credits.filter(c => c.user_id === userId);
+  },
+  getLocations: async (userId: string = 'user_1'): Promise<UserLocation[]> => {
+    await delay(50);
+    return locations.filter(l => l.user_id === userId);
   },
   saveFeedback: async (newFeedback: RecommendationFeedback): Promise<void> => {
     await delay(50);

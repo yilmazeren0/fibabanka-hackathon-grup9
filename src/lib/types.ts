@@ -16,6 +16,25 @@ export interface Transaction {
   bank: 'Fibabanka' | 'Abank' | 'Bbank';
 }
 
+export interface Credit {
+  id: string;
+  user_id: string;
+  type: 'Ev Kredisi' | 'Taşıt Kredisi' | 'İhtiyaç Kredisi';
+  amount: number;
+  remainingAmount: number;
+  interestRate: number;
+  bank: 'Fibabanka' | 'Abank' | 'Bbank';
+}
+
+export interface UserLocation {
+    id: string;
+    user_id: string;
+    latitude: number;
+    longitude: number;
+    category: 'restoran' | 'teknoloji' | 'market' | 'diğer';
+    timestamp: string;
+}
+
 export interface CategorizedTransaction {
   id: string;
   category: string;
