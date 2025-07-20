@@ -33,3 +33,13 @@ export interface LoanOffer {
   eventType: string;
   offerDetails: string;
 }
+
+export interface Feedback {
+  id: string;
+  feedback: 'liked' | 'disliked';
+}
+
+export interface RecommendationFeedback {
+  recommendation: string;
+  feedback: 'liked' | 'disliked';
+}

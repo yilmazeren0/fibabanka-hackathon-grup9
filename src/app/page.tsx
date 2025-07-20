@@ -1,13 +1,12 @@
-import { mockUser, mockTransactions } from '@/lib/data';
+import { db } from '@/lib/db';
 import { Header } from '@/components/dashboard/Header';
 import { SummaryCards } from '@/components/dashboard/SummaryCards';
 import { SpendingChart } from '@/components/dashboard/SpendingChart';
 import { SidePanel } from '@/components/dashboard/SidePanel';
 
-export default function Home() {
-  // In a real app, this data would be fetched for the logged-in user.
-  const user = mockUser;
-  const transactions = mockTransactions;
+export default async function Home() {
+  const user = await db.getUser();
+  const transactions = await db.getTransactions();
   const balance = transactions.reduce((acc, t) => acc + t.amount, 0);
 
   return (

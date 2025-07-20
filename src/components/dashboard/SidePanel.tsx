@@ -4,14 +4,16 @@ import * as React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, ArrowUpCircle, Banknote, Gift, HeartHandshake, Sparkles, TrendingUp } from 'lucide-react';
+import { AlertCircle, ArrowUpCircle, ArrowDownCircle, Banknote, Gift, HeartHandshake, Sparkles, TrendingUp } from 'lucide-react';
 import {
   getSpendingPrediction,
   fetchFinancialRecommendation,
   fetchLocalOffers,
   checkForLifeEvents,
+  saveRecommendationFeedback,
 } from '@/app/actions';
 import type { Transaction, User, Offer, LoanOffer } from '@/lib/types';
+import { useToast } from "@/hooks/use-toast"
 
 interface SidePanelProps {
   transactions: Transaction[];
@@ -29,21 +31,33 @@ export function SidePanel({ transactions, user }: SidePanelProps) {
   const [lifeEvent, setLifeEvent] = React.useState<{ event: string | null; loans: LoanOffer[] } | null>(null);
   
   const [loading, setLoading] = React.useState({
-    prediction: false,
-    recommendation: false,
-    offers: false,
-    lifeEvent: false,
+    prediction: true,
+    recommendation: true,
+    offers: true,
+    lifeEvent: true,
   });
 
   const [feedback, setFeedback] = React.useState<Feedback>({});
+  const { toast } = useToast()
 
-  const handleFeedback = (id: string, newFeedback: 'liked' | 'disliked') => {
-    setFeedback(prev => ({
-      ...prev,
-      [id]: prev[id] === newFeedback ? null : newFeedback,
-    }));
+  const handleFeedback = async (id: string, newFeedback: 'liked' | 'disliked', recommendationText?: string) => {
+    const currentFeedback = feedback[id];
+    const newFeedbackState = currentFeedback === newFeedback ? null : newFeedback;
+    
+    setFeedback(prev => ({ ...prev, [id]: newFeedbackState }));
+
+    if (recommendationText) {
+      if (newFeedbackState !== null) {
+        await saveRecommendationFeedback({ recommendation: recommendationText, feedback: newFeedbackState });
+        toast({
+          title: "Geri Bildiriminiz Alındı!",
+          description: "Gelecekteki önerileri sizin için iyileştireceğiz.",
+        })
+        runRecommendation(true); // Re-fetch recommendation after feedback
+      }
+    }
   };
-
+  
   const runPrediction = async () => {
     setLoading(p => ({ ...p, prediction: true }));
     try {
@@ -53,13 +67,17 @@ export function SidePanel({ transactions, user }: SidePanelProps) {
     setLoading(p => ({ ...p, prediction: false }));
   };
   
-  const runRecommendation = async () => {
-    setLoading(p => ({ ...p, recommendation: true }));
+  const runRecommendation = async (isOptimizing = false) => {
+    if(!isOptimizing) {
+       setLoading(p => ({ ...p, recommendation: true }));
+    }
     try {
       const result = await fetchFinancialRecommendation(transactions, user);
       setRecommendation(result.recommendation);
     } catch (e) { console.error(e); }
-    setLoading(p => ({ ...p, recommendation: false }));
+    if(!isOptimizing) {
+      setLoading(p => ({ ...p, recommendation: false }));
+    }
   };
 
   const runLocalOffers = async () => {
@@ -114,8 +132,11 @@ export function SidePanel({ transactions, user }: SidePanelProps) {
           recommendation ? (
              <div className="flex items-center gap-2">
                 <p className="flex-1">{recommendation}</p>
-                 <Button variant={feedback['rec'] === 'liked' ? 'secondary' : 'ghost'} size="icon" className="h-8 w-8 rounded-full" onClick={() => handleFeedback('rec', 'liked')}>
+                 <Button variant={feedback['rec'] === 'liked' ? 'secondary' : 'ghost'} size="icon" className="h-8 w-8 rounded-full" onClick={() => handleFeedback('rec', 'liked', recommendation)}>
                     <ArrowUpCircle className={`h-4 w-4 ${feedback['rec'] === 'liked' ? 'text-green-500' : ''}`} />
+                </Button>
+                 <Button variant={feedback['rec'] === 'disliked' ? 'secondary' : 'ghost'} size="icon" className="h-8 w-8 rounded-full" onClick={() => handleFeedback('rec', 'disliked', recommendation)}>
+                    <ArrowDownCircle className={`h-4 w-4 ${feedback['rec'] === 'disliked' ? 'text-red-500' : ''}`} />
                 </Button>
             </div>
           ) : <p>Tavsiye mevcut değil.</p>,
