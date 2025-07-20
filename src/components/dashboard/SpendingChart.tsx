@@ -58,8 +58,8 @@ export function SpendingChart({ transactions }: SpendingChartProps) {
   return (
     <Card className="h-full flex flex-col">
       <CardHeader>
-        <CardTitle className="font-headline">Spending Overview</CardTitle>
-        <CardDescription>Your spending by category for the last 30 days.</CardDescription>
+        <CardTitle className="font-headline">Harcama Özeti</CardTitle>
+        <CardDescription>Son 30 gündeki kategori bazlı harcamalarınız.</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
         {isLoading ? (
@@ -74,8 +74,9 @@ export function SpendingChart({ transactions }: SpendingChartProps) {
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
               <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-              <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
+              <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}`} />
               <Tooltip
+                formatter={(value: number) => [value.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' }), 'Toplam']}
                 contentStyle={{
                   backgroundColor: 'hsl(var(--card))',
                   borderColor: 'hsl(var(--border))',

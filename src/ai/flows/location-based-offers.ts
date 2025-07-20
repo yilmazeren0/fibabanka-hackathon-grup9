@@ -13,8 +13,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const LocationBasedOffersInputSchema = z.object({
-  latitude: z.number().describe('The latitude of the user.'),
-  longitude: z.number().describe('The longitude of the user.'),
+  locationCategory: z.string().describe('The category of the user\'s location (e.g., restoran, teknoloji, market).'),
 });
 export type LocationBasedOffersInput = z.infer<typeof LocationBasedOffersInputSchema>;
 
@@ -38,11 +37,13 @@ const prompt = ai.definePrompt({
   name: 'locationBasedOffersPrompt',
   input: {schema: LocationBasedOffersInputSchema},
   output: {schema: LocationBasedOffersOutputSchema},
-  prompt: `You are a personal financial assistant. The user is currently located at latitude {{latitude}} and longitude {{longitude}}. Recommend 3 relevant offers from nearby banks.
+  prompt: `Sen bir kişisel finans asistanısın. Kullanıcı şu anda '{{locationCategory}}' kategorisindeki bir konumda. Fibabanka, Abank ve Bbank'tan ilgili 3 kampanya öner.
 
-Return a JSON object containing a list of offers. Each offer should include the bank name, category, discount, and a brief description.
+Her banka, kullanıcının bulunduğu kategoriyle ilgili aynı türde bir kampanya sunmalıdır, ancak indirim oranları farklı olmalıdır. Örneğin, kullanıcı bir marketteyse, tüm bankalar market alışverişlerinde indirim teklif etmelidir, ancak farklı yüzdelerde.
 
-Ensure that the offers are relevant to the user's location and likely to be of interest to them.`, // Updated prompt
+Tekliflerin kullanıcının konumuyla alakalı ve onun için ilgi çekici olduğundan emin ol.
+
+Tekliflerin bir listesini içeren bir JSON nesnesi döndür. Her teklif banka adını, kategoriyi, indirimi ve kısa bir açıklamayı içermelidir. Açıklamalar Türkçe olmalıdır.`,
 });
 
 const locationBasedOffersFlow = ai.defineFlow(

@@ -18,11 +18,10 @@ export async function getCategorizedTransactions(transactions: Transaction[]) {
 }
 
 export async function fetchLocalOffers() {
-  // Simulate random location in a city like Istanbul
-  const latitude = 41.0082 + (Math.random() - 0.5) * 0.2;
-  const longitude = 28.9784 + (Math.random() - 0.5) * 0.2;
+  const mockCategories = ["restoran", "teknoloji", "market", "diğer"];
+  const randomCategory = mockCategories[Math.floor(Math.random() * mockCategories.length)];
 
-  return await getLocationBasedOffers({ latitude, longitude });
+  return await getLocationBasedOffers({ locationCategory: randomCategory });
 }
 
 export async function checkForLifeEvents(transactions: Transaction[]) {

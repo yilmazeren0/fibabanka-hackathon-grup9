@@ -102,15 +102,15 @@ export function SidePanel({ transactions, user }: SidePanelProps) {
     <Card className="h-full">
       <CardContent className="grid gap-8 p-6">
         {renderModule(
-          <TrendingUp />, 'Spending Prediction',
+          <TrendingUp />, 'Harcama Tahmini',
           prediction ? (
-            <p>Next month's predicted spending is <strong className="text-foreground">${prediction.amount.toFixed(2)}</strong>. {prediction.explanation}</p>
-          ) : <p>No prediction available.</p>,
+            <p>Gelecek ayki tahmini harcamanız <strong className="text-foreground">{prediction.amount.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' })}</strong>. {prediction.explanation}</p>
+          ) : <p>Tahmin mevcut değil.</p>,
           loading.prediction
         )}
 
         {renderModule(
-          <Sparkles />, 'Financial Recommendation',
+          <Sparkles />, 'Finansal Tavsiye',
           recommendation ? (
              <div className="flex items-center gap-2">
                 <p className="flex-1">{recommendation}</p>
@@ -118,36 +118,36 @@ export function SidePanel({ transactions, user }: SidePanelProps) {
                     <ArrowUpCircle className={`h-4 w-4 ${feedback['rec'] === 'liked' ? 'text-green-500' : ''}`} />
                 </Button>
             </div>
-          ) : <p>No recommendation available.</p>,
+          ) : <p>Tavsiye mevcut değil.</p>,
           loading.recommendation
         )}
 
         {renderModule(
-          <Gift />, 'Local Offers',
+          <Gift />, 'Yakındaki Fırsatlar',
           offers.length > 0 ? (
             <div className="space-y-2">
               {offers.map((offer, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs p-2 rounded-md bg-background">
                   <Banknote className="h-4 w-4 text-primary" />
-                  <p className="flex-1"><strong>{offer.bank}:</strong> {offer.description} ({offer.discount}% off)</p>
+                  <p className="flex-1"><strong>{offer.bank}:</strong> {offer.description} (%{offer.discount} indirim)</p>
                    <Button variant={feedback[`offer_${i}`] === 'liked' ? 'secondary' : 'ghost'} size="icon" className="h-6 w-6 rounded-full" onClick={() => handleFeedback(`offer_${i}`, 'liked')}>
                         <ArrowUpCircle className={`h-3 w-3 ${feedback[`offer_${i}`] === 'liked' ? 'text-green-500' : ''}`} />
                     </Button>
                 </div>
               ))}
             </div>
-          ) : <p>No offers found nearby.</p>,
+          ) : <p>Yakında fırsat bulunamadı.</p>,
           loading.offers
         )}
 
         {renderModule(
-          <HeartHandshake />, 'Life Event Watch',
+          <HeartHandshake />, 'Hayat Olayı Takibi',
           lifeEvent?.event ? (
             <div className="space-y-2">
-              <p className="flex items-center gap-2 text-sm"><AlertCircle className="h-4 w-4 text-accent" />We've detected you might be: <strong className="text-foreground">{lifeEvent.event}</strong></p>
+              <p className="flex items-center gap-2 text-sm"><AlertCircle className="h-4 w-4 text-accent" />Şunu yaşıyor olabileceğinizi tespit ettik: <strong className="text-foreground">{lifeEvent.event}</strong></p>
               {lifeEvent.loans.length > 0 && (
                  <div className="space-y-2 pt-2">
-                  <p className="font-medium text-xs">Here are some loan offers that might help:</p>
+                  <p className="font-medium text-xs">İşinize yarayabilecek bazı kredi teklifleri:</p>
                   {lifeEvent.loans.map((loan, i) => (
                     <div key={i} className="flex items-center gap-2 text-xs p-2 rounded-md bg-background">
                        <p className="flex-1"><strong>{loan.bank}:</strong> {loan.offerDetails}</p>
@@ -159,7 +159,7 @@ export function SidePanel({ transactions, user }: SidePanelProps) {
                  </div>
               )}
             </div>
-          ) : <p>No significant life events detected in your recent activity. We're keeping an eye out for you!</p>,
+          ) : <p>Son aktivitelerinizde önemli bir hayat olayı tespit edilmedi. Sizin için gözümüzü dört açtık!</p>,
           loading.lifeEvent
         )}
       </CardContent>
