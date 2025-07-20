@@ -53,9 +53,6 @@ const predictSpendingFlow = ai.defineFlow(
   async input => {
     try {
       const {output} = await prompt(input);
-      if (output) {
-        output.predictedSpending = output.predictedSpending * 10;
-      }
       return output!;
     } catch (e) {
         console.error("Error in spending prediction flow", e);
