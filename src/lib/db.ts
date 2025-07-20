@@ -7,17 +7,25 @@ let users: User[] = [
     name: 'Alex Doe',
     email: 'alex.doe@example.com',
     avatar: 'https://placehold.co/100x100.png',
-    preferences: 'Yeni bir araba için para biriktirmeye ve dışarıda yeme harcamalarımı azaltmaya çalışıyorum.',
+    preferences: 'Yeni bir evlilik hazırlığındayım ve masraflarım için uygun kredi seçenekleri arıyorum. Düğün ve ev eşyası harcamalarımı kontrol altında tutmak istiyorum.',
   }
 ];
 
 let transactions: Transaction[] = [
+    // Wedding-related expenses
+    { id: 't50', user_id: 'user_1', amount: -5000.00, description: 'Gelinlik Mağazası A', date: '2024-07-20', bank: 'Fibabanka' },
+    { id: 't51', user_id: 'user_1', amount: -2500.00, description: 'Düğün Salonu Kapora', date: '2024-07-19', bank: 'Abank' },
+    { id: 't52', user_id: 'user_1', amount: -1500.00, description: 'Düğün Fotoğrafçısı', date: '2024-07-18', bank: 'Bbank' },
+    { id: 't53', user_id: 'user_1', amount: -3000.00, description: 'Damatlık Alışverişi', date: '2024-07-17', bank: 'Fibabanka' },
+    { id: 't54', user_id: 'user_1', amount: -1000.00, description: 'Davetiye Baskısı', date: '2024-07-16', bank: 'Abank' },
+    
+    // Regular transactions
     { id: 't1', user_id: 'user_1', amount: -24.50, description: 'BIM Market', date: '2024-07-15', bank: 'Fibabanka' },
     { id: 't2', user_id: 'user_1', amount: -1200.00, description: 'MediaMarkt TV', date: '2024-07-14', bank: 'Abank' },
     { id: 't3', user_id: 'user_1', amount: -89.99, description: 'Zara Giyim', date: '2024-07-14', bank: 'Bbank' },
     { id: 't4', user_id: 'user_1', amount: -45.30, description: 'Big Chefs Restoran', date: '2024-07-13', bank: 'Fibabanka' },
     { id: 't5', user_id: 'user_1', amount: -250.00, description: 'Pegasus Uçak Bileti', date: '2024-07-12', bank: 'Abank' },
-    { id: 't6', user_id: 'user_1', amount: 5000.00, description: 'Maaş', date: '2024-07-10', bank: 'Fibabanka' },
+    { id: 't6', user_id: 'user_1', amount: 15000.00, description: 'Maaş', date: '2024-07-10', bank: 'Fibabanka' },
     { id: 't7', user_id: 'user_1', amount: -15.00, description: 'A101 Market Alışverişi', date: '2024-07-10', bank: 'Bbank' },
     { id: 't8', user_id: 'user_1', amount: -350.50, description: 'Vatan Bilgisayar', date: '2024-07-09', bank: 'Fibabanka' },
     { id: 't9', user_id: 'user_1', amount: -75.00, description: 'LC Waikiki', date: '2024-07-08', bank: 'Abank' },
@@ -38,13 +46,13 @@ let transactions: Transaction[] = [
     { id: 't24', user_id: 'user_1', amount: -95.00, description: 'Koton', date: '2024-06-10', bank: 'Abank' },
     { id: 't25', user_id: 'user_1', amount: -80.00, description: 'Develi Restoran', date: '2024-06-08', bank: 'Bbank' },
     { id: 't26', user_id: 'user_1', amount: -600.00, description: 'SunExpress Uçuş', date: '2024-06-05', bank: 'Fibabanka' },
-    { id: 't27', user_id: 'user_1', amount: 5000.00, description: 'Maaş', date: '2024-06-10', bank: 'Fibabanka' },
+    { id: 't27', user_id: 'user_1', amount: 15000.00, description: 'Maaş', date: '2024-06-10', bank: 'Fibabanka' },
     { id: 't28', user_id: 'user_1', amount: -45.00, description: 'Getir Siparişi', date: '2024-06-04', bank: 'Abank' },
     { id: 't29', user_id: 'user_1', amount: -99.99, description: 'Spotify Abonelik', date: '2024-06-01', bank: 'Bbank' },
     { id: 't30', user_id: 'user_1', amount: -25.00, description: 'Starbucks Kahve', date: '2024-05-30', bank: 'Fibabanka' },
     { id: 't31', user_id: 'user_1', amount: -150.00, description: 'Sinema Bileti - Paribu Cineverse', date: '2024-05-28', bank: 'Abank' },
     { id: 't32', user_id: 'user_1', amount: -65.00, description: 'Yemeksepeti Siparişi', date: '2024-05-25', bank: 'Bbank' },
-    { id: 't33', user_id: 'user_1', amount: 5150.00, description: 'Maaş', date: '2024-05-10', bank: 'Fibabanka' },
+    { id: 't33', user_id: 'user_1', amount: 15000.00, description: 'Maaş', date: '2024-05-10', bank: 'Fibabanka' },
     { id: 't34', user_id: 'user_1', amount: -75.50, description: 'Benzin - Shell', date: '2024-05-08', bank: 'Abank' },
     { id: 't35', user_id: 'user_1', amount: -250.00, description: 'Hepsiburada Siparişi', date: '2024-05-05', bank: 'Bbank' },
     { id: 't36', user_id: 'user_1', amount: -12.99, description: 'Netflix Abonelik', date: '2024-05-01', bank: 'Fibabanka' }

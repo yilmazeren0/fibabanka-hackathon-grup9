@@ -32,6 +32,7 @@ export interface LoanOffer {
   bank: string;
   eventType: string;
   offerDetails: string;
+  isRecommended: boolean;
 }
 
 export interface Feedback {
