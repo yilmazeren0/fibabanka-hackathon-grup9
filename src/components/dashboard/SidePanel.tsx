@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, ArrowUpCircle, Banknote, Gift, HeartHand, Sparkles, TrendingUp } from 'lucide-react';
+import { AlertCircle, ArrowUpCircle, Banknote, Gift, HeartHandshake, Sparkles, TrendingUp } from 'lucide-react';
 import {
   getSpendingPrediction,
   fetchFinancialRecommendation,
@@ -141,7 +141,7 @@ export function SidePanel({ transactions, user }: SidePanelProps) {
         )}
 
         {renderModule(
-          <HeartHand />, 'Life Event Watch',
+          <HeartHandshake />, 'Life Event Watch',
           lifeEvent?.event ? (
             <div className="space-y-2">
               <p className="flex items-center gap-2 text-sm"><AlertCircle className="h-4 w-4 text-accent" />We've detected you might be: <strong className="text-foreground">{lifeEvent.event}</strong></p>
