@@ -22,7 +22,7 @@ const LocationBasedOffersOutputSchema = z.object({
     z.object({
       bank: z.string().describe('The name of the bank providing the offer.'),
       category: z.string().describe('The category of the offer.'),
-      discount: z.number().describe('The discount percentage of the offer.'),
+      discount: z.number().describe('The discount percentage of the offer as a whole number (e.g., 5 for 5%).'),
       description: z.string().describe('A description of the offer. It should not include the discount amount in parenthesis.'),
     })
   ).describe('A list of location-based offers.'),
@@ -39,7 +39,7 @@ const prompt = ai.definePrompt({
   output: {schema: LocationBasedOffersOutputSchema},
   prompt: `Sen bir kişisel finans asistanısın. Kullanıcı şu anda '{{locationCategory}}' kategorisindeki bir konumda. Fibabanka, Abank ve Bbank'tan ilgili 3 kampanya öner.
 
-Her banka, kullanıcının bulunduğu kategoriyle ilgili aynı türde bir kampanya sunmalıdır, ancak indirim oranları (discount) farklı olmalıdır. Örneğin, kullanıcı bir marketteyse, tüm bankalar market alışverişlerinde indirim teklif etmelidir, ancak farklı yüzdelerde.
+Her banka, kullanıcının bulunduğu kategoriyle ilgili aynı türde bir kampanya sunmalıdır, ancak indirim oranları (discount) farklı olmalıdır. Örneğin, kullanıcı bir marketteyse, tüm bankalar market alışverişlerinde indirim teklif etmelidir, ancak farklı yüzdelerde (örn: 5, 7.5, 10). İndirim değerini tam sayı olarak döndür.
 
 Tekliflerin kullanıcının konumuyla alakalı ve onun için ilgi çekici olduğundan emin ol.
 
