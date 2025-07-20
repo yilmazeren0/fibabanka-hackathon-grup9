@@ -4,8 +4,6 @@
  * @fileOverview AI agent for providing personalized micro financial suggestions based on user spending behavior.
  *
  * - getFinancialRecommendation - A function that generates financial recommendations.
- * - FinancialRecommendationInput - The input type for the getFinancialRecommendation function.
- * - FinancialRecommendationOutput - The return type for the getFinancialRecommendation function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -16,9 +14,9 @@ const FinancialRecommendationInputSchema = z.object({
   userPreferences: z.string().describe('The user preferences.'),
 });
 
-export type FinancialRecommendationInput = z.infer<typeof FinancialRecommendationInputSchema>;
+type FinancialRecommendationInput = z.infer<typeof FinancialRecommendationInputSchema>;
 
-export const FinancialRecommendationOutputSchema = z.object({
+const FinancialRecommendationOutputSchema = z.object({
   recommendation: z.string().describe('A personalized financial recommendation.'),
 });
 

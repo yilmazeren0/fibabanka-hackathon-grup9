@@ -5,8 +5,6 @@
  * @fileOverview This file defines a Genkit flow for providing location-based offers to users.
  *
  * - getLocationBasedOffers - A function that handles the process of retrieving location-based offers.
- * - LocationBasedOffersInput - The input type for the getLocationBasedOffers function.
- * - LocationBasedOffersOutput - The return type for the getLocationBasedOffers function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -15,9 +13,9 @@ import {z} from 'genkit';
 const LocationBasedOffersInputSchema = z.object({
   locationCategory: z.string().describe('The category of the user\'s location (e.g., restoran, teknoloji, market).'),
 });
-export type LocationBasedOffersInput = z.infer<typeof LocationBasedOffersInputSchema>;
+type LocationBasedOffersInput = z.infer<typeof LocationBasedOffersInputSchema>;
 
-export const LocationBasedOffersOutputSchema = z.object({
+const LocationBasedOffersOutputSchema = z.object({
   offers: z.array(
     z.object({
       bank: z.string().describe('The name of the bank providing the offer.'),

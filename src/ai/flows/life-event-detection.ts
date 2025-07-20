@@ -3,8 +3,6 @@
  * @fileOverview Detects life events from transaction history and offers tailored loan options.
  *
  * - detectLifeEvent - A function that handles the life event detection process.
- * - LifeEventDetectionInput - The input type for the detectLifeEvent function.
- * - LifeEventDetectionOutput - The return type for the detectLifeEvent function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -16,7 +14,7 @@ const LifeEventDetectionInputSchema = z.object({
     .describe('The transaction history of the user as a JSON string.'),
   userId: z.string().describe('The ID of the user.'),
 });
-export type LifeEventDetectionInput = z.infer<typeof LifeEventDetectionInputSchema>;
+type LifeEventDetectionInput = z.infer<typeof LifeEventDetectionInputSchema>;
 
 const LoanOfferSchema = z.object({
   bank: z.string().describe('Kredi teklifini sunan bankanın adı.'),
@@ -25,7 +23,7 @@ const LoanOfferSchema = z.object({
   isRecommended: z.boolean().describe('Bu teklifin, seçenekler arasında önerilen olup olmadığı.'),
 });
 
-export const LifeEventDetectionOutputSchema = z.object({
+const LifeEventDetectionOutputSchema = z.object({
   lifeEvent: z
     .string()
     .nullable()

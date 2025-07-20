@@ -4,8 +4,6 @@
  * @fileOverview Transaction categorization AI agent.
  *
  * - categorizeTransactions - A function that categorizes a list of transactions.
- * - CategorizeTransactionsInput - The input type for the categorizeTransactions function.
- * - CategorizeTransactionsOutput - The return type for the categorizeTransactions function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -21,7 +19,7 @@ const CategorizeTransactionsInputSchema = z.object({
     })
   ).describe('A list of transactions to categorize.'),
 });
-export type CategorizeTransactionsInput = z.infer<typeof CategorizeTransactionsInputSchema>;
+type CategorizeTransactionsInput = z.infer<typeof CategorizeTransactionsInputSchema>;
 
 const CategorizeTransactionsOutputSchema = z.array(
   z.object({

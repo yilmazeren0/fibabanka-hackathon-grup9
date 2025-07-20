@@ -7,28 +7,14 @@
  * financial overview for the user.
  *
  * - getFinancialContext - The main function to get the complete financial context.
- * - ModelContextProtocolInput - The input type for the MCP flow.
- * - ModelContextProtocolOutput - The return type for the MCP flow.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import {
-  predictSpending,
-  PredictSpendingOutputSchema,
-} from './spending-prediction';
-import {
-  getFinancialRecommendation,
-  FinancialRecommendationOutputSchema,
-} from './financial-recommendations';
-import {
-  getLocationBasedOffers,
-  LocationBasedOffersOutputSchema,
-} from './location-based-offers';
-import {
-  detectLifeEvent,
-  LifeEventDetectionOutputSchema,
-} from './life-event-detection';
+import { predictSpending, type PredictSpendingOutput } from './spending-prediction';
+import { getFinancialRecommendation, type FinancialRecommendationOutput } from './financial-recommendations';
+import { getLocationBasedOffers, type LocationBasedOffersOutput } from './location-based-offers';
+import { detectLifeEvent, type LifeEventDetectionOutput } from './life-event-detection';
 import type {Transaction, User} from '@/lib/types';
 import { getOptimizedRecommendation } from './behavioral-optimization-agent';
 import { db } from '@/lib/db';
@@ -53,15 +39,39 @@ const ModelContextProtocolInputSchema = z.object({
     preferences: z.string(),
   }).describe('The user data.'),
 });
-export type ModelContextProtocolInput = z.infer<
+type ModelContextProtocolInput = z.infer<
   typeof ModelContextProtocolInputSchema
 >;
 
 const ModelContextProtocolOutputSchema = z.object({
-  spendingPrediction: PredictSpendingOutputSchema,
-  financialRecommendation: FinancialRecommendationOutputSchema,
-  localOffers: LocationBasedOffersOutputSchema,
-  lifeEvent: LifeEventDetectionOutputSchema,
+  spendingPrediction: z.object({
+    predictedSpending: z.number(),
+    explanation: z.string(),
+  }),
+  financialRecommendation: z.object({
+    recommendation: z.string(),
+  }),
+  localOffers: z.object({
+    offers: z.array(
+      z.object({
+        bank: z.string(),
+        category: z.string(),
+        discount: z.number(),
+        description: z.string(),
+      })
+    ),
+  }),
+  lifeEvent: z.object({
+    lifeEvent: z.string().nullable(),
+    loanOffers: z.array(
+      z.object({
+        bank: z.string(),
+        eventType: z.string(),
+        offerDetails: z.string(),
+        isRecommended: z.boolean(),
+      })
+    ),
+  }),
 });
 export type ModelContextProtocolOutput = z.infer<
   typeof ModelContextProtocolOutputSchema

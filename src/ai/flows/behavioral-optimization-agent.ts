@@ -22,13 +22,13 @@ const BehavioralOptimizationInputSchema = z.object({
   feedbackHistory: z.array(FeedbackSchema).describe('A history of previous recommendations and the user\'s feedback on them.'),
 });
 
-export type BehavioralOptimizationInput = z.infer<typeof BehavioralOptimizationInputSchema>;
+type BehavioralOptimizationInput = z.infer<typeof BehavioralOptimizationInputSchema>;
 
 const BehavioralOptimizationOutputSchema = z.object({
   recommendation: z.string().describe('A new, personalized financial recommendation, optimized based on past feedback.'),
 });
 
-export type BehavioralOptimizationOutput = z.infer<typeof BehavioralOptimizationOutputSchema>;
+type BehavioralOptimizationOutput = z.infer<typeof BehavioralOptimizationOutputSchema>;
 
 export async function getOptimizedRecommendation(input: BehavioralOptimizationInput): Promise<BehavioralOptimizationOutput> {
   return behavioralOptimizationFlow(input);

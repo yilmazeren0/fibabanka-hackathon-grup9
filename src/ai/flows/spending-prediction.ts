@@ -4,8 +4,6 @@
  * @fileOverview A flow to predict a user's spending for the next month.
  *
  * - predictSpending - A function that handles the spending prediction process.
- * - PredictSpendingInput - The input type for the predictSpending function.
- * - PredictSpendingOutput - The return type for the predictSpending function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -15,9 +13,9 @@ const PredictSpendingInputSchema = z.object({
   userId: z.string().describe('The ID of the user to predict spending for.'),
   transactionHistory: z.string().describe('The transaction history of the user.'),
 });
-export type PredictSpendingInput = z.infer<typeof PredictSpendingInputSchema>;
+type PredictSpendingInput = z.infer<typeof PredictSpendingInputSchema>;
 
-export const PredictSpendingOutputSchema = z.object({
+const PredictSpendingOutputSchema = z.object({
   predictedSpending: z.number().describe('Gelecek ay için tahmin edilen harcama.'),
   explanation: z.string().describe('Tahminin nasıl yapıldığına dair bir açıklama.'),
 });
