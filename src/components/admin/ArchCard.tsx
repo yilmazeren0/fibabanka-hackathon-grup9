@@ -1,5 +1,3 @@
-'use client';
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const ArchCard = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (

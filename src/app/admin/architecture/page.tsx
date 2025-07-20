@@ -53,14 +53,14 @@ export default function ArchitecturePage() {
                                 <Users className="w-3 h-3 text-primary" />
                             </span>
                             <h3 className="font-semibold">1. Presenter (Sunucu) - `page.tsx`</h3>
-                            <p className="text-sm text-muted-foreground">
+                            <div className="text-sm text-muted-foreground">
                                 `page.tsx` ana sayfa bileşeni bir "Presenter" olarak çalışır. Görevi, sayfa için gerekli tüm verileri hazırlamaktır.
                                 <ul className="list-disc pl-5 mt-2 space-y-1">
                                     <li>`db.ts` üzerinden kullanıcı ve işlem verilerini çeker.</li>
                                     <li>`actions.ts` üzerinden tüm AI akışlarını (harcama tahmini, tavsiye vb.) tetikler.</li>
                                     <li>Topladığı bu verileri, alt bileşenlere (View'lar) `props` olarak geçirir.</li>
                                 </ul>
-                           </p>
+                           </div>
                         </li>
                          <li className="ml-6">
                             <span className="absolute flex items-center justify-center w-6 h-6 bg-primary/20 rounded-full -left-3 ring-8 ring-background">

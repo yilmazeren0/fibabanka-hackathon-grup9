@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Package2, Database, Share2, Home } from 'lucide-react';
