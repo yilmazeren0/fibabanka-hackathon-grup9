@@ -25,7 +25,7 @@ const LoanOfferSchema = z.object({
   isRecommended: z.boolean().describe('Bu teklifin, seçenekler arasında önerilen olup olmadığı.'),
 });
 
-const LifeEventDetectionOutputSchema = z.object({
+export const LifeEventDetectionOutputSchema = z.object({
   lifeEvent: z
     .string()
     .nullable()

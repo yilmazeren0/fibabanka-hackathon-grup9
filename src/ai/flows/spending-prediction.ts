@@ -17,7 +17,7 @@ const PredictSpendingInputSchema = z.object({
 });
 export type PredictSpendingInput = z.infer<typeof PredictSpendingInputSchema>;
 
-const PredictSpendingOutputSchema = z.object({
+export const PredictSpendingOutputSchema = z.object({
   predictedSpending: z.number().describe('Gelecek ay için tahmin edilen harcama.'),
   explanation: z.string().describe('Tahminin nasıl yapıldığına dair bir açıklama.'),
 });

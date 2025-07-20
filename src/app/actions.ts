@@ -1,13 +1,11 @@
 'use server';
 
 import { categorizeTransactions } from '@/ai/flows/transaction-categorization';
-import { getLocationBasedOffers } from '@/ai/flows/location-based-offers';
-import { detectLifeEvent } from '@/ai/flows/life-event-detection';
-import { predictSpending } from '@/ai/flows/spending-prediction';
-import { getFinancialRecommendation } from '@/ai/flows/financial-recommendations';
-import { getOptimizedRecommendation } from '@/ai/flows/behavioral-optimization-agent';
+import { getFinancialContext as getFinancialContextFromFlow } from '@/ai/flows/model-context-protocol';
 import { db } from '@/lib/db';
 import type { Transaction, User, RecommendationFeedback } from '@/lib/types';
+import { getFinancialRecommendation } from '@/ai/flows/financial-recommendations';
+import { getOptimizedRecommendation } from '@/ai/flows/behavioral-optimization-agent';
 
 
 export async function getCategorizedTransactions(transactions: Transaction[]) {
@@ -20,38 +18,11 @@ export async function getCategorizedTransactions(transactions: Transaction[]) {
   return await categorizeTransactions({ transactions: transactionsToCategorize });
 }
 
-export async function fetchLocalOffers() {
-  const mockCategories = ["restoran", "teknoloji", "market", "diğer"];
-  const randomCategory = mockCategories[Math.floor(Math.random() * mockCategories.length)];
-  return await getLocationBasedOffers({ locationCategory: randomCategory });
+export async function getFinancialContext(transactions: Transaction[], user: User) {
+  return await getFinancialContextFromFlow({ transactions, user });
 }
 
-export async function checkForLifeEvents(transactions: Transaction[]) {
-  const transactionHistory = JSON.stringify(transactions.map(t => ({
-    description: t.description,
-    amount: t.amount,
-    date: t.date,
-  })));
-
-  return await detectLifeEvent({
-    userId: 'user_1',
-    transactionHistory,
-  });
-}
-
-export async function getSpendingPrediction(transactions: Transaction[]) {
-   const transactionHistory = JSON.stringify(transactions.map(t => ({
-    description: t.description,
-    amount: t.amount,
-    date: t.date,
-  })));
-
-  return await predictSpending({
-    userId: 'user_1',
-    transactionHistory,
-  });
-}
-
+// This function is now used for re-fetching recommendations after feedback.
 export async function fetchFinancialRecommendation(transactions: Transaction[], user: User) {
   const transactionHistory = JSON.stringify(transactions.map(t => ({
     description: t.description,

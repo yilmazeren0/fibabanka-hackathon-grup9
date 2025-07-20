@@ -7,3 +7,4 @@ import '@/ai/flows/life-event-detection.ts';
 import '@/ai/flows/location-based-offers.ts';
 import '@/ai/flows/financial-recommendations.ts';
 import '@/ai/flows/behavioral-optimization-agent.ts';
+import '@/ai/flows/model-context-protocol.ts';

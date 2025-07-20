@@ -17,7 +17,7 @@ const LocationBasedOffersInputSchema = z.object({
 });
 export type LocationBasedOffersInput = z.infer<typeof LocationBasedOffersInputSchema>;
 
-const LocationBasedOffersOutputSchema = z.object({
+export const LocationBasedOffersOutputSchema = z.object({
   offers: z.array(
     z.object({
       bank: z.string().describe('The name of the bank providing the offer.'),

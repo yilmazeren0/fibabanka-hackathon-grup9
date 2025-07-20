@@ -1,4 +1,4 @@
-import { Component, Database, BrainCircuit, Users, Layers, Share2 } from 'lucide-react';
+import { Component, Database, BrainCircuit, Users, Layers, Share2, Bot } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
 import { ArchCard, ArchArrow } from '@/components/admin/ArchCard';
 
@@ -12,10 +12,21 @@ export default function ArchitecturePage() {
             <p className="text-muted-foreground mb-8">
                 Bu sayfa, FinSight AI uygulamasının yapısını, veri akışını ve kullanılan tasarım desenlerini açıklamaktadır.
             </p>
+            
+            <Card className="mb-8 border-primary/40 bg-primary/5">
+                 <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><Bot className="h-6 w-6 text-primary" />Model Context Protocol (MCP)</CardTitle>
+                 </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">
+                        Uygulamanın kalbinde, tüm AI yeteneklerini yöneten ve onlara doğru bağlamı sağlayan bir <strong>"Model Context Protocol" (MCP)</strong> bulunur. Bu, `model-context-protocol.ts` dosyasında yer alan bir orkestratör AI akışıdır.
+                    </p>
+                </CardContent>
+            </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-start">
                 <div className="md:col-span-2 space-y-4">
-                     <ArchCard title="Frontend (View Katmanı)" icon={<Component className="h-6 w-6 text-primary" />}>
+                     <ArchCard title="1. Frontend (View Katmanı)" icon={<Component className="h-6 w-6 text-primary" />}>
                         <p><strong>Arayüz Bileşenleri:</strong> ShadCN UI ve Tailwind CSS ile oluşturulmuş, sadece veriyi göstermekle görevli "aptal" (dumb) bileşenler. Kendi başlarına veri çekme veya iş mantığı içermezler.</p>
                         <p><strong>Örnekler:</strong> `Header`, `SummaryCards`, `SpendingChart`, `SidePanel` gibi bileşenler.</p>
                     </ArchCard>
@@ -26,63 +37,34 @@ export default function ArchitecturePage() {
                 </div>
                 
                 <div className="md:col-span-2 space-y-4">
-                    <ArchCard title="Server Actions & Genkit AI" icon={<BrainCircuit className="h-6 w-6 text-primary" />}>
-                        <p><strong>Server Actions (`actions.ts`):</strong> Arayüzden gelen istekleri alır ve ilgili AI akışlarını (flows) tetikler.</p>
-                        <p><strong>Genkit AI Flows (`/ai/flows`):</strong> İşlemleri kategorize etme, harcama tahmini, finansal tavsiye gibi AI yeteneklerini barındıran modüller.</p>
-                    </ArchCard>
-                    
-                    <ArchArrow />
-
-                    <ArchCard title="Veri Kaynağı (Simüle Edilmiş)" icon={<Database className="h-6 w-6 text-primary" />}>
-                        <p><strong>`db.ts`:</strong> Uygulamanın "veritabanı" görevi görür. Kullanıcı ve işlem verilerini hafızada tutar ve yönetir.</p>
+                    <ArchCard title="2. Presenter & MCP" icon={<Users className="h-6 w-6 text-primary" />}>
+                        <p><strong>`page.tsx` (Presenter):</strong> Kullanıcı ve işlem verilerini `db.ts`'den çeker. Ardından bu verileri, tek bir merkezî çağrı ile <strong>Model Context Protocol (MCP)</strong> akışına gönderir.</p>
+                        <p><strong>MCP Akışı:</strong> Gerekli tüm alt AI akışlarını (harcama tahmini, tavsiye vb.) paralel olarak tetikler ve sonuçları birleştirerek Presenter'a geri döner.</p>
                     </ArchCard>
                 </div>
             </div>
 
-            <Card className="mt-8">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><Layers className="h-6 w-6" />Veri Akışı & Presenter Deseni</CardTitle>
-                    <p className="text-sm text-muted-foreground pt-1">
-                        Uygulama, veri akışını yönetmek için <strong>Presenter Pattern</strong> (Sunucu Deseni) kullanır. Bu desen, veri getirme ve işleme mantığını (Presenter) arayüzden (View) ayırır.
-                    </p>
-                </CardHeader>
-                <CardContent>
-                    <ol className="relative border-l border-gray-200 dark:border-gray-700 space-y-6">
-                        <li className="ml-6">
-                            <span className="absolute flex items-center justify-center w-6 h-6 bg-primary/20 rounded-full -left-3 ring-8 ring-background">
-                                <Users className="w-3 h-3 text-primary" />
-                            </span>
-                            <h3 className="font-semibold">1. Presenter (Sunucu) - `page.tsx`</h3>
-                            <div className="text-sm text-muted-foreground">
-                                `page.tsx` ana sayfa bileşeni bir "Presenter" olarak çalışır. Görevi, sayfa için gerekli tüm verileri hazırlamaktır.
-                                <ul className="list-disc pl-5 mt-2 space-y-1">
-                                    <li>`db.ts` üzerinden kullanıcı ve işlem verilerini çeker.</li>
-                                    <li>`actions.ts` üzerinden tüm AI akışlarını (harcama tahmini, tavsiye vb.) tetikler.</li>
-                                    <li>Topladığı bu verileri, alt bileşenlere (View'lar) `props` olarak geçirir.</li>
-                                </ul>
-                           </div>
-                        </li>
-                         <li className="ml-6">
-                            <span className="absolute flex items-center justify-center w-6 h-6 bg-primary/20 rounded-full -left-3 ring-8 ring-background">
-                                <Component className="w-3 h-3 text-primary" />
-                            </span>
-                            <h3 className="font-semibold">2. View (Görünüm) - Diğer Bileşenler</h3>
-                            <p className="text-sm text-muted-foreground">
-                               `SidePanel`, `SpendingChart` gibi bileşenler "View" katmanını oluşturur. Sadece kendilerine `props` ile verilen veriyi ekranda gösterirler. Verinin nereden veya nasıl geldiğiyle ilgilenmezler. Bu sayede yeniden kullanılabilir ve test edilebilir olurlar.
-                            </p>
-                        </li>
-                        <li className="ml-6">
-                            <span className="absolute flex items-center justify-center w-6 h-6 bg-primary/20 rounded-full -left-3 ring-8 ring-background">
-                                <BrainCircuit className="w-3 h-3 text-primary" />
-                            </span>
-                            <h3 className="font-semibold">3. Geri Bildirim ve Optimizasyon</h3>
-                           <p className="text-sm text-muted-foreground">
-                               Kullanıcı `SidePanel`'deki bir tavsiyeye geri bildirimde bulunduğunda (`beğen`/`beğenme`), bu etkileşim `actions.ts` üzerinden `db.ts`'e kaydedilir. Bir sonraki sefer `page.tsx` (Presenter) tavsiye istediğinde, `behavioral-optimization-agent` bu geri bildirimi kullanarak daha kişiselleştirilmiş bir sonuç üretir.
-                            </p>
-                        </li>
-                    </ol>
-                </CardContent>
-            </Card>
+             <div className="flex justify-center my-4">
+                <ArchArrow />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                 <ArchCard title="3. Uzman AI Akışları" icon={<BrainCircuit className="h-6 w-6 text-primary" />}>
+                    <p>MCP tarafından tetiklenen, her biri kendi alanında uzmanlaşmış Genkit AI akışlarıdır. Örneğin:</p>
+                     <ul className="list-disc pl-5 mt-2 space-y-1 text-xs">
+                        <li>`spending-prediction`</li>
+                        <li>`financial-recommendations`</li>
+                        <li>`life-event-detection`</li>
+                        <li>`location-based-offers`</li>
+                    </ul>
+                </ArchCard>
+                 <ArchCard title="4. Veri Kaynağı" icon={<Database className="h-6 w-6 text-primary" />}>
+                    <p><strong>`db.ts`:</strong> Uygulamanın "veritabanı" görevi görür. Kullanıcı, işlem ve geri bildirim verilerini hafızada tutar ve yönetir.</p>
+                </ArchCard>
+                 <ArchCard title="5. Geri Bildirim Döngüsü" icon={<Layers className="h-6 w-6 text-primary" />}>
+                    <p>Kullanıcı bir tavsiyeye geri bildirimde bulunduğunda, bu bilgi `db.ts`'e kaydedilir. MCP, bir sonraki çalışmasında bu geri bildirimi de bağlama ekleyerek `behavioral-optimization-agent`'ı tetikler ve daha kişisel sonuçlar üretir.</p>
+                </ArchCard>
+            </div>
         </div>
     );
 }

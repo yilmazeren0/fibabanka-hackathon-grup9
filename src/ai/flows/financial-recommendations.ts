@@ -18,7 +18,7 @@ const FinancialRecommendationInputSchema = z.object({
 
 export type FinancialRecommendationInput = z.infer<typeof FinancialRecommendationInputSchema>;
 
-const FinancialRecommendationOutputSchema = z.object({
+export const FinancialRecommendationOutputSchema = z.object({
   recommendation: z.string().describe('A personalized financial recommendation.'),
 });
 
